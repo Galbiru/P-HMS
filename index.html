@@ -170,6 +170,43 @@
             max-width: 180px;
             height: auto;
         }
+
+        /* MEDIA QUERIES UNTUK TAMPILAN RESPONSIVE */
+        /* Tablet dan layar lebih kecil dari 768px */
+        @media (max-width: 768px) {
+            #welcome-page .welcome-title {
+                font-size: 2rem;
+            }
+            .users-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .user-btn {
+                width: 120px;
+                height: 120px;
+            }
+            .logo-top-left {
+                max-width: 150px;
+            }
+        }
+
+        /* Smartphone dan layar lebih kecil dari 480px */
+        @media (max-width: 480px) {
+            #welcome-page .welcome-title {
+                font-size: 1.5rem;
+            }
+            .users-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .user-btn {
+                width: 100%;
+                height: 80px;
+            }
+            .logo-top-left {
+                max-width: 120px;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen p-4">
