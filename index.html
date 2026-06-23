@@ -170,46 +170,58 @@
             max-width: 180px;
             height: auto;
         }
+
+        /* STYLE BARU: Tombol Pojok Kanan Atas */
+        .action-container-top-right {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 50;
+            display: flex;
+            gap: 8px;
+        }
+        .action-btn-square {
+            background-color: #343a40;
+            color: #e0e0e0;
+            border: 1px solid #495057;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .action-btn-square:hover {
+            background-color: #212529;
+            color: #ffffff;
+            border-color: #6c757d;
+        }
         
         /* MEDIA QUERIES UNTUK TAMPILAN RESPONSIVE */
-        /* Tablet dan layar lebih kecil dari 768px */
         @media (max-width: 768px) {
-            #welcome-page .welcome-title {
-                font-size: 2rem;
-            }
-            .users-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            .user-btn {
-                width: 120px;
-                height: 120px;
-            }
-            .logo-top-left {
-                max-width: 150px;
-            }
+            #welcome-page .welcome-title { font-size: 2rem; }
+            .users-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .user-btn { width: 120px; height: 120px; }
+            .logo-top-left { max-width: 150px; }
         }
 
-        /* Smartphone dan layar lebih kecil dari 480px */
         @media (max-width: 480px) {
-            #welcome-page .welcome-title {
-                font-size: 1.5rem;
-            }
-            .users-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .user-btn {
-                width: 100%;
-                height: 80px;
-            }
-            .logo-top-left {
-                max-width: 120px;
-            }
+            #welcome-page .welcome-title { font-size: 1.5rem; }
+            .users-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .user-btn { width: 100%; height: 80px; }
+            .logo-top-left { max-width: 120px; }
+            .action-btn-square { padding: 6px 10px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body class="min-h-screen p-4">
+
+    <div id="top-nav-buttons" class="action-container-top-right" style="display: none;">
+        <button class="action-btn-square" id="nav-test-link-btn">test link</button>
+        <button class="action-btn-square" id="nav-field-spv-btn">Field SPV</button>
+    </div>
+
     <div class="max-w-md mx-auto">
         <div id="welcome-page" class="fade-transition" style="opacity: 1;">
             <img src="logo.png" alt="Project HMS Logo" class="logo-top-left">
@@ -217,12 +229,35 @@
             <h1 class="welcome-title">Acorn Consultant<br>Quantity Project</h1>
             <button id="start-btn">PRESS START TO CONTINUE</button>
         </div>
+
         <div id="main-view" class="fade-transition" style="display: none; opacity: 0;">
             <h1 class="main-title text-center">PROJECT HMS 2025</h1>
             <div id="datetime" class="datetime"></div>
             <div id="user-buttons-container" class="users-grid"></div>
         </div>
-        <div id="content-display-area"></div>
+
+        <div id="content-display-area">
+            <div id="content-test-link" class="content-container fade-transition" style="display: none; opacity: 0;">
+                <button class="back-btn">← Kembali ke Menu Utama</button>
+                <div class="user-details-text text-center">
+                    <h3 class="font-bold text-lg">Test Link Menu</h3>
+                </div>
+                <div class="number-grid">
+                    <a href="https://www.survey.co.kr/?ACCESS_KEY=fc9b0dcae6f54e3b9e88&UID=" target="_blank" rel="noopener noreferrer" class="number-btn">Press the button for Test Link</a>
+                </div>
+            </div>
+
+            <div id="content-field-spv" class="content-container fade-transition" style="display: none; opacity: 0;">
+                <button class="back-btn">← Kembali ke Menu Utama</button>
+                <div class="user-details-text text-center">
+                    <h3 class="font-bold text-lg">Field SPV Menu</h3>
+                </div>
+                <div class="number-grid flex flex-col gap-2">
+                    <a href="https://urldefense.com/v3/__https:/www.survey.co.kr/?ACCESS_KEY=630246e7f8cd43b4b13a&grpid=&UID=__;!!HEtReXZgYQ!W3_1C0rscIt2uaGQ6xt3hZ4LaWwJb2Jx-6UQXBa2px2nnM2t0pnmeaWwXYzY0861hhr6w1Gts6XRe_PLqVHr$" target="_blank" rel="noopener noreferrer" class="number-btn" style="background-image: linear-gradient(to right, #7d2a2a, #c83d3d);">Press For Real Link</a>
+                    <a href="https://www.survey.co.kr/?ACCESS_KEY=fc9b0dcae6f54e3b9e88&UID=" target="_blank" rel="noopener noreferrer" class="number-btn">Press For Test Link</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -230,9 +265,6 @@
             let clickedNumbers = JSON.parse(localStorage.getItem('clickedNumbers')) || [];
             let activeContentId = null;
             let isAnimating = false;
-
-            const originalBodyBg = document.body.style.backgroundImage;
-            const linesPattern = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23c7d2fe' fill-opacity='0.2'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
 
             const users = [
                 { id: 'user01', name: 'Sulastri', password: 'u775', links: ['https://urldefense.com/v3/__https:/www.survey.co.kr/?ACCESS_KEY=630246e7f8cd43b4b13a&grpid=&UID=__;!!HEtReXZgYQ!W3_1C0rscIt2uaGQ6xt3hZ4LaWwJb2Jx-6UQXBa2px2nnM2t0pnmeaWwXYzY0861hhr6w1Gts6XRe_PLqVHr$'] },
@@ -246,6 +278,11 @@
             const userButtonsContainer = document.getElementById('user-buttons-container');
             const contentDisplayArea = document.getElementById('content-display-area');
             const mainContainer = document.querySelector('.max-w-md');
+            const topNavButtons = document.getElementById('top-nav-buttons');
+
+            // Navigasi Tombol Kanan Atas
+            const navTestLinkBtn = document.getElementById('nav-test-link-btn');
+            const navFieldSpvBtn = document.getElementById('nav-field-spv-btn');
 
             function generateUserAssets(user) {
                 const userButton = document.createElement('button');
@@ -254,7 +291,6 @@
                 userButton.dataset.target = user.id;
                 userButtonsContainer.appendChild(userButton);
 
-                // Buat HTML untuk detail pengguna
                 const userDetailsHTML = `
                     <div class="user-details-text">
                         <h3 class="font-bold text-lg">${user.name}</h3>
@@ -281,54 +317,28 @@
                 contentDisplayArea.appendChild(contentWrapper);
             }
 
-            function showUserGridWithZoom(targetId, clickedButton) {
+            // Fungsi navigasi ke halaman detail secara mulus
+            function switchView(targetId) {
                 if (isAnimating) return;
                 isAnimating = true;
+
+                // Sembunyikan view yang sedang aktif
+                if (activeContentId) {
+                    document.getElementById(activeContentId).style.display = 'none';
+                    document.getElementById(activeContentId).style.opacity = '0';
+                }
+                mainView.style.opacity = '0';
+                mainView.style.display = 'none';
+
                 activeContentId = targetId;
-
-                const rect = clickedButton.getBoundingClientRect();
-                const zoomCircle = document.createElement('div');
-                zoomCircle.style.position = 'fixed';
-                zoomCircle.style.left = `${rect.left}px`;
-                zoomCircle.style.top = `${rect.top}px`;
-                zoomCircle.style.width = `${rect.width}px`;
-                zoomCircle.style.height = `${rect.height}px`;
-                zoomCircle.style.backgroundImage = window.getComputedStyle(clickedButton).backgroundImage;
-                zoomCircle.style.borderRadius = '8px';
-                zoomCircle.style.zIndex = '9999';
-                zoomCircle.style.transform = 'scale(1)';
-                zoomCircle.style.opacity = '1';
-                zoomCircle.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out';
-                document.body.appendChild(zoomCircle);
-
-                setTimeout(() => {
-                    zoomCircle.style.transform = 'scale(50)';
-                }, 20);
-
-                setTimeout(() => {
-                    mainView.style.opacity = '0';
-                    mainView.style.display = 'none';
-                    // Menggunakan tema gelap yang sama untuk transisi
-                    const darkThemeGradient = `linear-gradient(135deg, #222 0%, #111 100%)`;
-                    const darkThemePattern = `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 10l10-10m-5 0l10 10m-5-10l10 10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
-                    document.body.style.backgroundImage = `${darkThemePattern}, ${darkThemeGradient}`;
-
-                    const contentToShow = document.getElementById(targetId);
-                    if (contentToShow) {
-                        contentToShow.style.display = 'block';
-                        contentToShow.offsetWidth;
+                const contentToShow = document.getElementById(targetId);
+                if (contentToShow) {
+                    contentToShow.style.display = 'block';
+                    setTimeout(() => {
                         contentToShow.style.opacity = '1';
-                    }
-                }, 300);
-
-                setTimeout(() => {
-                    zoomCircle.style.opacity = '0';
-                }, 600);
-
-                setTimeout(() => {
-                    zoomCircle.remove();
-                    isAnimating = false;
-                }, 1200);
+                        isAnimating = false;
+                    }, 20);
+                }
             }
 
             function showMainView() {
@@ -338,51 +348,16 @@
                 const activeContent = document.getElementById(activeContentId);
                 if (activeContent) {
                     activeContent.style.opacity = '0';
-                }
-
-                const targetButton = document.querySelector(`.user-btn[data-target="${activeContentId}"]`);
-                if (!targetButton) { isAnimating = false; return; }
-                const rectTarget = targetButton.getBoundingClientRect();
-
-                const color = window.getComputedStyle(activeContent).backgroundImage;
-                const zoomCircle = document.createElement('div');
-                zoomCircle.style.position = 'fixed';
-                zoomCircle.style.left = '0';
-                zoomCircle.style.top = '0';
-                zoomCircle.style.width = '100vw';
-                zoomCircle.style.height = '100vh';
-                zoomCircle.style.backgroundImage = color;
-                zoomCircle.style.borderRadius = '0%';
-                zoomCircle.style.zIndex = '9999';
-                zoomCircle.style.transition = 'all 0.7s cubic-bezier(0.5, 0, 0.75, 0)';
-                document.body.appendChild(zoomCircle);
-
-                requestAnimationFrame(() => {
                     setTimeout(() => {
-                        if (activeContent) {
-                            activeContent.style.display = 'none';
-                        }
+                        activeContent.style.display = 'none';
                         mainView.style.display = 'block';
-                        mainView.offsetWidth;
-                        mainView.style.opacity = '1';
-                        // Revert ke tema gelap saat kembali ke menu utama
-                        const darkThemeGradient = `linear-gradient(135deg, #222 0%, #111 100%)`;
-                        const darkThemePattern = `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 10l10-10m-5 0l10 10m-5-10l10 10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
-                        document.body.style.backgroundImage = `${darkThemePattern}, ${darkThemeGradient}`;
-
-                        zoomCircle.style.left = `${rectTarget.left}px`;
-                        zoomCircle.style.top = `${rectTarget.top}px`;
-                        zoomCircle.style.width = `${rectTarget.width}px`;
-                        zoomCircle.style.height = `${rectTarget.height}px`;
-                        zoomCircle.style.borderRadius = '8px';
-                    }, 20);
-
-                    setTimeout(() => {
-                        zoomCircle.remove();
-                        activeContentId = null;
-                        isAnimating = false;
-                    }, 750);
-                });
+                        setTimeout(() => {
+                            mainView.style.opacity = '1';
+                            activeContentId = null;
+                            isAnimating = false;
+                        }, 20);
+                    }, 300);
+                }
             }
 
             function updateDateTime() {
@@ -391,12 +366,13 @@
                 document.getElementById('datetime').textContent = now.toLocaleString('id-ID', options);
             }
 
+            // Event handler untuk menu utama dan tombol kembali
             mainContainer.addEventListener('click', function(event) {
                 const target = event.target.closest('.user-btn, .back-btn, a.number-btn');
                 if (!target || isAnimating) return;
 
                 if (target.matches('.user-btn')) {
-                    showUserGridWithZoom(target.dataset.target, target);
+                    switchView(target.dataset.target);
                 }
                 else if (target.matches('.back-btn')) {
                     showMainView();
@@ -409,11 +385,11 @@
                         localStorage.setItem('clickedNumbers', JSON.stringify(clickedNumbers));
                     }
                 }
-                else if (target.matches('a.number-btn.disabled')) {
-                    event.preventDefault();
-                    alert('Tidak ada link yang tersedia untuk nomor ini.');
-                }
             });
+
+            // Action click untuk tombol top-right menu
+            navTestLinkBtn.addEventListener('click', () => switchView('content-test-link'));
+            navFieldSpvBtn.addEventListener('click', () => switchView('content-field-spv'));
 
             users.forEach(generateUserAssets);
 
@@ -423,6 +399,7 @@
                 setTimeout(() => {
                     welcomePage.style.display = 'none';
                     mainView.style.display = 'block';
+                    topNavButtons.style.display = 'flex'; // Munculkan tombol kanan atas setelah start
                     setTimeout(() => { mainView.style.opacity = '1'; isAnimating = false; }, 20);
                 }, 500);
             });
