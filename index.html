@@ -14,7 +14,7 @@
             font-family: 'Roboto Mono', monospace; /* Terapkan font baru */
             background-color: #1a1a1a; /* Warna dasar hitam dof */
             /* Pola garis diagonal yang halus dengan gradasi gelap */
-            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 10l10-10m-5 0l10 10m-5-10l10 10'/%3E%3C/g%3E%3C/svg%3E"),
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 10l10-10m-5 0l10 10m-5-10l10 10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
                 linear-gradient(135deg, #222 0%, #111 100%);
             min-height: 100vh;
             transition: background-image 0.7s ease-in-out;
@@ -179,33 +179,33 @@
             right: 15px;
             z-index: 50;
             display: flex;
-            gap: 8px;
+            gap: 12px; /* Jarak antar tombol sedikit diperlebar agar seimbang */
         }
+        
+        /* TOMBOL SEKARANG LEBIH BESAR & MENGGUNAKAN TAILWIND KUSTOM DI HTML */
         .action-btn-square {
             background-color: #343a40;
             color: #e0e0e0;
             border: 1px solid #495057;
-            padding: 8px 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 4px;
+            font-weight: 700; /* Teks dibuat lebih tebal (Bold) agar proporsional */
+            border-radius: 6px; /* Sudut sedikit lebih halus untuk tombol besar */
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
             white-space: nowrap;
         }
         .action-btn-square:hover {
             background-color: #212529;
             color: #ffffff;
             border-color: #6c757d;
+            transform: translateY(-1px); /* Efek sedikit terangkat saat di-hover */
         }
         
         /* MEDIA QUERIES UNTUK TAMPILAN RESPONSIVE (TABLET & HP) */
         @media (max-width: 1024px) {
             body {
-                padding-top: 20px; /* Reset padding atas */
+                padding-top: 20px;
             }
-            /* Ubah logo menjadi relatif di atas */
             .logo-top-left {
                 position: relative;
                 top: 0;
@@ -214,14 +214,14 @@
                 display: block;
                 max-width: 140px;
             }
-            /* Ubah posisi tombol menu menjadi relatif di bawah logo/judul agar tidak tabrakan */
             .action-container-top-right {
                 position: relative;
                 top: 0;
                 right: 0;
                 justify-content: center;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
                 width: 100%;
+                padding: 0 10px;
             }
         }
 
@@ -233,45 +233,38 @@
 
         @media (max-width: 480px) {
             #welcome-page .welcome-title { font-size: 1.6rem; }
-            .users-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } /* Tetap 2 kolom di HP agar hemat ruang vertikal */
+            .users-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .user-btn { width: 100%; height: 90px; font-size: 0.9rem; }
             .logo-top-left { max-width: 120px; }
-            .action-btn-square { padding: 8px 12px; font-size: 0.8rem; flex: 1; text-align: center; } /* Tombol melebar seimbang di HP */
             .main-title { font-size: 1.8rem; }
+            .action-container-top-right { gap: 8px; }
         }
     </style>
 </head>
 <body class="min-h-screen p-4">
 
-    <!-- Container tombol navigasi tambahan -->
     <div id="top-nav-buttons" class="action-container-top-right" style="display: none;">
-        <button class="action-btn-square" id="nav-test-link-btn">test link</button>
-        <button class="action-btn-square" id="nav-field-spv-btn">Field SPV</button>
+        <button class="action-btn-square px-5 py-3 text-sm md:text-base md:px-6 md:py-3.5" id="nav-test-link-btn">test link</button>
+        <button class="action-btn-square px-5 py-3 text-sm md:text-base md:px-6 md:py-3.5" id="nav-field-spv-btn">Field SPV</button>
     </div>
 
-    <!-- Kontainer Utama Website -->
     <div class="max-w-md mx-auto relative">
-        <!-- Logo ditaruh di dalam kontainer utama agar rapi saat mode mobile -->
         <img src="logo.png" alt="Project HMS Logo" id="main-logo" class="logo-top-left">
 
-        <!-- WELCOME PAGE -->
         <div id="welcome-page" class="fade-transition" style="opacity: 1;">
-            <div class="h-10"></div> <!-- Spacer pengganti logo -->
+            <div class="h-10"></div> 
             <h2>WELCOME TO</h2>
             <h1 class="welcome-title">Acorn Consultant<br>Quantity Project</h1>
             <button id="start-btn">PRESS START TO CONTINUE</button>
         </div>
 
-        <!-- MAIN VIEW (USER MENU) -->
         <div id="main-view" class="fade-transition" style="display: none; opacity: 0;">
             <h1 class="main-title text-center">PROJECT HMS 2026</h1>
             <div id="datetime" class="datetime"></div>
             <div id="user-buttons-container" class="users-grid"></div>
         </div>
 
-        <!-- AREA KONTEN MENAMPILKAN HASIL KLIK -->
         <div id="content-display-area">
-            <!-- Halaman Konten Eksklusif untuk "test link" -->
             <div id="content-test-link" class="content-container fade-transition" style="display: none; opacity: 0;">
                 <button class="back-btn">← Kembali ke Menu Utama</button>
                 <div class="user-details-text text-center">
@@ -282,7 +275,6 @@
                 </div>
             </div>
 
-            <!-- Halaman Konten Eksklusif untuk "Field SPV" -->
             <div id="content-field-spv" class="content-container fade-transition" style="display: none; opacity: 0;">
                 <button class="back-btn">← Kembali ke Menu Utama</button>
                 <div class="user-details-text text-center">
@@ -317,7 +309,6 @@
             const topNavButtons = document.getElementById('top-nav-buttons');
             const mainLogo = document.getElementById('main-logo');
 
-            // Navigasi Tombol Tambahan
             const navTestLinkBtn = document.getElementById('nav-test-link-btn');
             const navFieldSpvBtn = document.getElementById('nav-field-spv-btn');
 
